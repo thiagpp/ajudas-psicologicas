@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#120b1b">
+  <title>Ajudas Psicológicas</title>
+  <style>
+    :root{--bg:#100b16;--panel:#1b1225;--panel2:#281638;--purple:#b56cff;--light:#f3eaff;--muted:#c8b8d8;--line:#49305e}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#29153d 0,#100b16 48%);color:var(--light);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+    .wrap{max-width:820px;margin:auto;padding:24px 16px 40px}.hero{text-align:center;padding:28px 12px 20px}
+    .logo{width:62px;height:62px;border-radius:20px;background:#2c1940;display:grid;place-items:center;margin:0 auto 14px;font-size:30px;border:1px solid var(--line)}
+    h1{font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.1;margin:0;color:#d9b5ff;letter-spacing:.02em}
+    .tagline{color:var(--muted);margin:12px auto 0;max-width:560px}
+    .notice{background:#21152c;border:1px solid var(--line);border-radius:14px;padding:13px 15px;color:#e8d9f5;font-size:.9rem;margin:18px 0}
+    .chat{background:rgba(27,18,37,.96);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #0006}
+    .chathead{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+    .dot{width:10px;height:10px;border-radius:50%;background:#a879d9;box-shadow:0 0 12px #b56cff}
+    .chathead small{display:block;color:var(--muted)}
+    #messages{height:min(48vh,430px);min-height:280px;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+    .msg{max-width:88%;padding:12px 14px;border-radius:16px;white-space:pre-wrap;overflow-wrap:anywhere}
+    .bot{background:var(--panel2);border:1px solid #50366a;align-self:flex-start}
+    .user{background:#58317a;align-self:flex-end}
+    .composer{display:flex;gap:9px;padding:14px;border-top:1px solid var(--line)}
+    textarea{flex:1;resize:vertical;min-height:48px;max-height:130px;border-radius:13px;border:1px solid var(--line);background:#120d19;color:var(--light);padding:12px;font:inherit}
+    button{border:0;border-radius:13px;padding:0 18px;background:var(--purple);color:#190d25;font-weight:700;font-size:1rem;cursor:pointer}
+    button:focus-visible,textarea:focus-visible{outline:3px solid #e3c4ff;outline-offset:2px}
+    .below{color:var(--muted);font-size:.84rem;margin:12px 3px}
+    .topics{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+    .topic{border:1px solid var(--line);background:#21152c;color:#e8d9f5;border-radius:999px;padding:7px 11px;font-size:.85rem}
+    footer{color:#a995bb;font-size:.8rem;text-align:center;margin-top:24px}
+    @media(max-width:520px){.composer{padding:10px}.composer button{padding:0 13px}.msg{max-width:95%}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div class="logo" aria-hidden="true">💜</div>
+      <h1>Ajudas Psicológicas</h1>
+      <p class="tagline">Um espaço acolhedor para conversar, organizar pensamentos e encontrar próximos passos.</p>
+    </header>
+
+    <div class="notice">
+      <strong>Importante:</strong> este é um protótipo de demonstração, não um serviço de psicologia nem uma IA conectada. Não substitui um psicólogo ou atendimento de emergência. Evite compartilhar nome completo, endereço, senhas ou outros dados pessoais.
+    </div>
+
+    <section class="chat" aria-label="Conversa de apoio">
+      <div class="chathead"><span class="dot"></span><div><strong>Assistente de acolhimento</strong><small>Protótipo demonstrativo • respostas locais</small></div></div>
+      <div id="messages" aria-live="polite">
+        <div class="msg bot">Oi! 💜 Este é um espaço de conversa respeitosa. Posso ajudar você a colocar em palavras o que está acontecendo e pensar em um próximo passo. Como você está se sentindo hoje?</div>
+      </div>
+      <form class="composer" id="chatForm">
+        <textarea id="messageInput" rows="2" maxlength="1200" placeholder="Escreva sua mensagem..." aria-label="Sua mensagem"></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <div class="topics" aria-label="Temas para conversar">
+      <span class="topic">Ansiedade</span><span class="topic">Tristeza</span><span class="topic">Família</span><span class="topic">Amizades</span><span class="topic">Autoestima</span>
+    </div>
+    <p class="below">As mensagens ficam apenas nesta página de demonstração e não são enviadas a um servidor. Ao fechar ou atualizar a página, a conversa será perdida.</p>
+    <footer>Se você estiver em perigo ou precisar de ajuda imediata, procure um adulto de confiança e os serviços de emergência da sua região.</footer>
+  </main>
+<script>
+const form = document.getElementById('chatForm');
+const input = document.getElementById('messageInput');
+const messages = document.getElementById('messages');
+
+function addMessage(text, who) {
+  const el = document.createElement('div');
+  el.className = 'msg ' + who;
+  el.textContent = text;
+  messages.appendChild(el);
+  messages.scrollTop = messages.scrollHeight;
+}
+function demoReply(text) {
+  const t = text.toLowerCase();
+  if (/(ansios|ansiedade|nervos|preocupad|medo)/.test(t))
+    return 'Parece que isso está trazendo preocupação. 💜 Se quiser, tente fazer uma pausa e respirar devagar por alguns instantes. O que está pesando mais para você agora?';
+  if (/(trist|sozinh|chor|desanim|deprimi)/.test(t))
+    return 'Sinto muito que esteja passando por um momento difícil. Você não precisa resolver tudo de uma vez. Existe alguém de confiança com quem você poderia conversar hoje?';
+  if (/(fam[ií]lia|m[aã]e|pai|irm[aã]o)/.test(t))
+    return 'Questões familiares podem ser complicadas. Posso ajudar você a organizar o que gostaria de dizer. O que você gostaria que essa pessoa entendesse?';
+  if (/(amig|relacion|namor|briga)/.test(t))
+    return 'Relações podem mexer bastante com nossos sentimentos. O que aconteceu e qual seria um resultado respeitoso e seguro para você?';
+  if (/(me machucar|me ferir|não quero viver|quero morrer|suic[ií]d)/.test(t))
+    return 'Obrigado por contar. Isso merece apoio humano agora. Por favor, procure imediatamente um adulto de confiança que esteja perto de você e diga claramente que não está se sentindo seguro(a). Se houver perigo imediato, vá a um serviço de emergência local. Não fique sozinho(a) enquanto busca ajuda.';
+  return 'Obrigado por compartilhar isso comigo. Quero entender melhor, sem julgar. O que nessa situação está sendo mais difícil para você neste momento?';
+}
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+  addMessage(text, 'user');
+  input.value = '';
+  window.setTimeout(() => addMessage(demoReply(text), 'bot'), 250);
+});
+</script>
+</body>
+</html>
